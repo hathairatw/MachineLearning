@@ -3,8 +3,8 @@ title: "Weight Lifting Exercise Prediction"
 author: "Hathairat"
 date: "18 May 2019"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -21,8 +21,8 @@ The training and testing dataset is available in http://groupware.les.inf.puc-ri
 
 ```{r dataload}
 library(dplyr); library(ggplot2); library(caret)
-TrainData <- read.csv("~/pml-training.csv")
-TestData <- read.csv("~/pml-testing.csv")
+TrainData <- read.csv("pml-training.csv")
+TestData <- read.csv("pml-testing.csv")
 ```
 
 The Train data has 160 variables and 19,622 observations. I remove any rows that have NAs or blank cells and also the columns with descriptive texts. Eventually the Traindata has 53 columns. Classe which is one of 53 columns is a predictor.
