@@ -220,7 +220,7 @@ set.seed(123)</code></pre>
 </div>
 <div id="creating-model-with-random-forests" class="section level2">
 <h2>Creating model with random forests</h2>
-<p>Since the data has labels, I choose random forest which is one of the supervised predicting methods to build a machine learning model. This is mainly because random forest method can handle classification prediction and returns high accuracy.</p>
+<p>Since the data has labels, I choose random forest which is one of the supervised predicting methods to build a machine learning model. This is mainly because random forest method can handle classification prediction and returns high accuracy. The model is tested with the sliced testing dataset and returns accuracy at <strong>99.44%</strong>.</p>
 <pre class="r"><code>mod1 &lt;- train(classe~., method = &quot;rf&quot;, data =training)
 pred1 &lt;- predict(mod1, testing)
 confusionMatrix(pred1, testing$classe)</code></pre>
@@ -228,34 +228,34 @@ confusionMatrix(pred1, testing$classe)</code></pre>
 ## 
 ##           Reference
 ## Prediction    A    B    C    D    E
-##          A 1673   10    0    0    0
-##          B    0 1123    4    0    0
-##          C    0    6 1021   10    0
-##          D    0    0    1  954    1
-##          E    1    0    0    0 1081
+##          A 1669   15    0    0    0
+##          B    3 1121    5    0    0
+##          C    0    3 1012   10    4
+##          D    0    0    9  950    1
+##          E    2    0    0    4 1077
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.9944          
-##                  95% CI : (0.9921, 0.9961)
+##                Accuracy : 0.9905          
+##                  95% CI : (0.9877, 0.9928)
 ##     No Information Rate : 0.2845          
 ##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
 ##                                           
-##                   Kappa : 0.9929          
+##                   Kappa : 0.988           
 ##                                           
 ##  Mcnemar's Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            0.9994   0.9860   0.9951   0.9896   0.9991
-## Specificity            0.9976   0.9992   0.9967   0.9996   0.9998
-## Pos Pred Value         0.9941   0.9965   0.9846   0.9979   0.9991
-## Neg Pred Value         0.9998   0.9966   0.9990   0.9980   0.9998
+## Sensitivity            0.9970   0.9842   0.9864   0.9855   0.9954
+## Specificity            0.9964   0.9983   0.9965   0.9980   0.9988
+## Pos Pred Value         0.9911   0.9929   0.9835   0.9896   0.9945
+## Neg Pred Value         0.9988   0.9962   0.9971   0.9972   0.9990
 ## Prevalence             0.2845   0.1935   0.1743   0.1638   0.1839
-## Detection Rate         0.2843   0.1908   0.1735   0.1621   0.1837
-## Detection Prevalence   0.2860   0.1915   0.1762   0.1624   0.1839
-## Balanced Accuracy      0.9985   0.9926   0.9959   0.9946   0.9994</code></pre>
+## Detection Rate         0.2836   0.1905   0.1720   0.1614   0.1830
+## Detection Prevalence   0.2862   0.1918   0.1749   0.1631   0.1840
+## Balanced Accuracy      0.9967   0.9913   0.9914   0.9917   0.9971</code></pre>
 <p>Here is the model variables ranked by its importance.</p>
 <pre class="r"><code>varImp(mod1)</code></pre>
 <pre><code>## rf variable importance
@@ -264,28 +264,28 @@ confusionMatrix(pred1, testing$classe)</code></pre>
 ## 
 ##                      Overall
 ## roll_belt             100.00
-## pitch_forearm          58.11
-## yaw_belt               56.78
-## magnet_dumbbell_z      45.80
-## pitch_belt             43.91
-## magnet_dumbbell_y      42.16
-## roll_forearm           40.74
-## accel_dumbbell_y       21.27
-## roll_dumbbell          19.93
-## accel_forearm_x        17.34
-## magnet_dumbbell_x      16.68
-## magnet_belt_z          15.73
-## accel_dumbbell_z       14.82
-## magnet_forearm_z       13.77
-## accel_belt_z           13.66
-## total_accel_dumbbell   12.91
-## magnet_belt_y          12.38
-## gyros_belt_z           11.43
-## magnet_belt_x          10.55
-## yaw_arm                10.41</code></pre>
+## pitch_forearm          59.81
+## yaw_belt               54.49
+## pitch_belt             45.75
+## magnet_dumbbell_z      44.38
+## magnet_dumbbell_y      42.85
+## roll_forearm           41.70
+## accel_dumbbell_y       23.16
+## magnet_dumbbell_x      17.54
+## accel_forearm_x        16.96
+## roll_dumbbell          16.66
+## magnet_belt_z          16.54
+## accel_dumbbell_z       14.25
+## magnet_forearm_z       13.88
+## accel_belt_z           13.74
+## total_accel_dumbbell   13.52
+## magnet_belt_y          12.11
+## yaw_arm                11.81
+## gyros_belt_z           11.19
+## magnet_belt_x          10.06</code></pre>
 <div id="predicting-test-data" class="section level3">
 <h3>Predicting test data</h3>
-<p>The model returns high accuracy in the Train data and is expected to give good prediction to the Test dataset.</p>
+<p>The model returns high accuracy at <strong>99.44%</strong> in the Train data and is expected to give good prediction to the Test dataset.</p>
 <p>Here is the classe prediction of 20 cases. Note: 1 in the table means predicted classe.</p>
 <pre class="r"><code>pred1Test &lt;- predict(mod1, TestData)
 table(TestData$problem_id,pred1Test)</code></pre>

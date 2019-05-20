@@ -46,7 +46,7 @@ set.seed(123)
 
 ## Creating model with random forests
 
-Since the data has labels, I choose random forest which is one of the supervised predicting methods to build a machine learning model. This is mainly because random forest method can handle classification prediction and returns high accuracy.
+Since the data has labels, I choose random forest which is one of the supervised predicting methods to build a machine learning model. This is mainly because random forest method can handle classification prediction and returns high accuracy. The model is tested with the sliced testing dataset and returns accuracy at **99.44%**.
 
 ```{r MethodRF}
 mod1 <- train(classe~., method = "rf", data =training)
@@ -62,7 +62,7 @@ varImp(mod1)
 
 ### Predicting test data
 
-The model returns high accuracy in the Train data and is expected to give good prediction to the Test dataset. 
+The model returns high accuracy at **99.44%** in the Train data and is expected to give good prediction to the Test dataset. 
 
 Here is the classe prediction of 20 cases.
 Note: 1 in the table means predicted classe.
