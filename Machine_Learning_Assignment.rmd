@@ -1,0 +1,89 @@
+---
+title: "Weight Lifting Exercise Prediction"
+author: "Hathairat"
+date: "18 May 2019"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+```
+
+## Executive Summary
+
+This analysis uses machine learning to predict the manner of 6 participants in their exercise. The manner of exercise is represented in 5 classes (A:E). The author created a predicting model using random forest method from the training dataset. The model is later used to predict 20 cases in the test dataset.
+
+## Data Preparation
+
+The training and testing dataset is available in http://groupware.les.inf.puc-rio.br/har. I downloaded the dataset into my working directory and read the data which I called TrainData and TestData.
+
+```{r dataload}
+library(dplyr); library(ggplot2); library(caret)
+TrainData <- read.csv("~/pml-training.csv")
+TestData <- read.csv("~/pml-testing.csv")
+```
+
+The Train data has 160 variables and 19,622 observations. I remove any rows that have NAs or blank cells and also the columns with descriptive texts. Eventually the Traindata has 53 columns. Classe which is one of 53 columns is a predictor.
+
+```{r datacleansed}
+TrainData[TrainData == ""] <- NA
+TrainData <- TrainData[ , colSums(is.na(TrainData)) == 0]
+TrainData <- subset(TrainData, select = -c(1:7))
+```
+
+A a quick glance and statistical summary of 53 variables which will be used in the analysis are included in *Appendix - Exploratory Data Analysis*.
+
+Before I started prediction models, I split the Train data into testing and training dataset. I also set seed for reproducible purposes. 
+
+```{r datasplit}
+inTrain <- createDataPartition(y=TrainData$classe,p=0.7,list=FALSE)
+training <- TrainData[inTrain,]
+testing <- TrainData[-inTrain,]
+set.seed(123)
+```
+
+## Creating model with random forests
+
+Since the data has labels, I choose random forest which is one of the supervised predicting methods to build a machine learning model. This is mainly because random forest method can handle classification prediction and returns high accuracy.
+
+```{r MethodRF}
+mod1 <- train(classe~., method = "rf", data =training)
+pred1 <- predict(mod1, testing)
+confusionMatrix(pred1, testing$classe)
+```
+
+Here is the model variables ranked by its importance.
+
+``` {r TestImp}
+varImp(mod1)
+```
+
+### Predicting test data
+
+The model returns high accuracy in the Train data and is expected to give good prediction to the Test dataset. 
+
+Here is the classe prediction of 20 cases.
+Note: 1 in the table means predicted classe.
+
+```{r TestRF}
+pred1Test <- predict(mod1, TestData)
+table(TestData$problem_id,pred1Test)
+```
+
+# Appendix
+
+## Exploratory data analysis
+
+Tables below exhibit characteristics and statistic summary of all 53 variables including the prediction - classe from Train dataset.
+
+```{r dataexploratory}
+str(TrainData)
+```
+
+```{r datastat}
+library(psych)
+psych::describe(TrainData)
+```
+
